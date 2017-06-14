@@ -70,13 +70,17 @@ ss_customers = {
         'state': {
             'type': 'string',
             # 'type': 'list',
-            'allowed': ["rsa", "ren", "bp09", "bp15", "rmb", "doc"],
+            'allowed': ["rsa", "ren", "paynow", "paylater", "atm", "newdd", "rmb", "doc"],
             'required': True,
         },
         'read': {
             'type': 'boolean',
             'default': False
         },
+        'readcount': {
+            'type': 'integer',
+            'default': 0
+        }
         # Eve takes care of inserted/updated field
         # 'inserted': {
         #     'type': 'datetime'
@@ -94,7 +98,8 @@ hosts = {
     'schema': {
         'name': {
             'type': 'string',
-            'required': True
+            'required': True,
+            'unique': True
         },
         'ss_host': {
             'type': 'string',
