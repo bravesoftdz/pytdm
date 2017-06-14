@@ -9,9 +9,7 @@
 # TODO learn how to deploy on apache server
 # TODO test the app with LR concurrency (hammer it)
 
-from flask import request
 from eve import Eve
-import json
 
 
 # post-request event hook to update the data after GET
@@ -21,6 +19,18 @@ def post_get_callback(resource, request, response):
 
 app = Eve()
 mongo = app.data.driver
+
+
+def before_returning_resource(resource, response):
+    print("resource name: ", resource, "\nresponse type: ", type(response))
+    for item in response['_items']:
+        q = {'_id': item['_id']}
+
+        #toggle
+        if item['read']:
+            u = {'$set': {'read': False}}
+        else:
+            u = {'$set': {'read': True}}
 
 
 def before_returning_item(resource, response):
@@ -38,26 +48,27 @@ def before_returning_item(resource, response):
     print('updated')
 
 
-@app.before_request
-def before():
-    print('the request object ready to processed', request)
-
-
-@app.after_request
-def after(response):
-    """
-    Your function must take one parameter, a `response_class` object and return
-    a new response object or the same (see Flask documentation).
-    """
-    print('response object is here', response.status)
-    print(type(response.get_data()))
-    print(response.get_data())
-
-    return response
+# @app.before_request
+# def before():
+#     print('the request object ready to processed', request)
+#
+#
+# @app.after_request
+# def after(response):
+#     """
+#     Your function must take one parameter, a `response_class` object and return
+#     a new response object or the same (see Flask documentation).
+#     """
+#     print('response object is here', response.status)
+#     print(type(response.get_data()))
+#     print(response.get_data())
+#
+#     return response
 
 
 app.on_post_GET += post_get_callback
 app.on_fetched_item += before_returning_item
+app.on_fetched_resource += before_returning_resource
 
 if __name__ == '__main__':
     app.run(debug=True)
