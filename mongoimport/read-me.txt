@@ -1,0 +1,11 @@
+mongoimport uses the input file name, without the extension, as the collection name if -c or --collection is unspecified. The following example is therefore equivalent:
+
+Following command will import the data from csv file to mongodb
+
+mongoimport --db racq_data --collection ss_customers --type csv --headerline --file datafile.csv
+
+
+
+Example of mongoexport command in our case
+
+mongoexport --db racq_data --collection ss_customers --type=csv --fields firstname,lastname,email,state --out ss_customers.csv --verbose

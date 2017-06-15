@@ -73,4 +73,4 @@ app.on_fetched_item += before_returning_item
 app.on_fetched_resource += before_returning_resource
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
