@@ -1,5 +1,5 @@
 """
-    'pytdm' - a test data management
+    'genie' - a test data management tool
     This is the main run file for the application
 
     :copyright: (c) 2017
@@ -21,8 +21,8 @@ app = Eve()
 mongo = app.data.driver
 
 
-def before_returning_resource(resource, response):
-    print("resource name: ", resource, "\nresponse type: ", type(response))
+def increment_readcount(resource, response):
+    # print("resource name: ", resource, "\nresponse type: ", type(response))
     if resource == 'ss_customers':
         for item in response['_items']:
             q = {'_id': item['_id']}
@@ -37,9 +37,9 @@ def before_returning_resource(resource, response):
 
 
 def before_returning_item(resource, response):
-    print('before returning item', response)
+    # print('before returning item', response)
     # response['_id'] = 'this is firstname'
-    print(response['_id'])
+    # print(response['_id'])
     q = {'_id': response['_id']}
     # toggle
     if response['read']:
@@ -48,7 +48,7 @@ def before_returning_item(resource, response):
         u = {'$set': {'read': True}}
 
     mongo.db.ss_customers.update(q, u)
-    print('updated')
+    # print('updated')
 
 
 # @app.before_request
@@ -69,8 +69,8 @@ def before_returning_item(resource, response):
 #     return response
 
 # app.on_post_GET += post_get_callback
-app.on_fetched_item += before_returning_item
-app.on_fetched_resource += before_returning_resource
+# app.on_fetched_item += before_returning_item
+app.on_fetched_resource += increment_readcount
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, host="0.0.0.0", port=8887)

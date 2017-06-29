@@ -1,5 +1,5 @@
 """
-    'pytdm' - a test data management
+    'genie' - a test data management tool
     settings file for eve application
 
     PLEASE NOTE: We don't need to create the two collections in MongoDB.
@@ -21,6 +21,8 @@ MONGO_PORT = 27017
 # MONGO_USERNAME = 'user'
 # MONGO_PASSWORD = 'user'
 MONGO_DBNAME = 'racq_data'
+
+# SOFT_DELETE = True
 
 SCHEMA_ENDPOINT = 'schema'
 
@@ -119,7 +121,6 @@ hosts = {
         }
     }
 }
-
 
 # Domain specifications
 DOMAIN = {

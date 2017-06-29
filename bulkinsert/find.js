@@ -1,0 +1,1 @@
+db.getCollection('ss_customers').find({"firstname": "JSK6HJTZN"})
