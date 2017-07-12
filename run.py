@@ -10,6 +10,7 @@
 # TODO test the app with LR concurrency (hammer it)
 
 from eve import Eve
+from time import sleep
 
 
 # post-request event hook to update the data after GET
@@ -19,6 +20,13 @@ from eve import Eve
 
 app = Eve()
 mongo = app.data.driver
+
+
+@app.route("/slow_response")
+def slow_response():
+    t = 50
+    sleep(t)
+    return "slow response"
 
 
 def increment_readcount(resource, response):
