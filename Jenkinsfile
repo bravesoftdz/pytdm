@@ -17,7 +17,7 @@ pipeline {
     }
     stage('stage 3') {
       steps {
-        sh 'printenv'
+        sh 'echo \'this is stage 3\''
       }
     }
   }
